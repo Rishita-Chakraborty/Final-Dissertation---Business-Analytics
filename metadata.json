@@ -1,0 +1,65 @@
+{
+  "project": "Valencia Short-Stay Revenue Optimisation",
+  "source": "Inside Airbnb \u2014 Valencia",
+  "snapshot_date": "2025-03-15",
+  "created_utc": "2025-09-01T13:22:57Z",
+  "paths": {
+    "base": "Documents/valencia_airbnb_project"
+  },
+  "inputs": {
+    "listings.csv.gz": {
+      "exists": true,
+      "size_bytes": 3714383,
+      "sha256": "c3b80b747e9d8e0d922a5123f4daf8426510e48452e97f275666381fd813c547"
+    },
+    "calendar.csv.gz": {
+      "exists": true,
+      "size_bytes": 8046382,
+      "sha256": "986ca2d4ad37de6c14b8595250ae8ce2b4a041497a4a522e6a987941be9efdf4"
+    },
+    "neighbourhoods.geojson": {
+      "exists": true,
+      "size_bytes": 177844,
+      "sha256": "fd8b538aa5ce06e55fa78c6455fea6db66821c8f2a1664247de8f3ae4c77b263"
+    }
+  },
+  "outputs": {
+    "valencia_clean.parquet": {
+      "exists": true,
+      "size_bytes": 3707132,
+      "sha256": "999d2c835bf726e468c4a690e6e5eb7f098e13ac077992a21191e955d0527cae"
+    },
+    "valencia_clean.csv": {
+      "exists": true,
+      "size_bytes": 13884691,
+      "sha256": "cf1d8a6bfce815325494fb6ccf8a5fcfccb85578ff8f7b112db9dd2c3c40c5e5"
+    },
+    "price_ols.pkl": {
+      "exists": true,
+      "size_bytes": 1203208,
+      "sha256": "e0f8181be73cb032e63c849926d88d0263f9844714d09f30a1d0687ec4a681b2"
+    },
+    "occ_glm.pkl": {
+      "exists": true,
+      "size_bytes": 1848075,
+      "sha256": "51aad2eaa6ccaf13d48e78d5f9f7581b47de436631359b94b0687d230da96ee7"
+    }
+  },
+  "cleaning_rules": [
+    "Entire homes/apartments only",
+    "Price winsorised to \u20ac30\u2013\u20ac400",
+    "Occupancy from last 365 days of calendar (nights_booked = available=='f')",
+    "ADR per listing = median daily price over observed days",
+    "RevPAR = ADR \u00d7 Occupancy",
+    "Distance to centre from (39.4699, -0.3763) using haversine (km)"
+  ],
+  "recreate_script": "recreate_clean_dataset.py",
+  "environment": {
+    "python": "3.11.4",
+    "platform": "macOS-15.4.1-arm64-arm-64bit",
+    "pandas": "1.5.3",
+    "numpy": "1.24.3",
+    "statsmodels": "0.14.0",
+    "plotly": "5.9.0"
+  }
+}
